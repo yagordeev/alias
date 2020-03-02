@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<style media="screen">
+			.player.active {
+				color: aliceblue !important;
+				background: transparent !important;
+			}
+		</style>
+		<body>
+			<main>
+				<div id="startblock">
+					<h1 id="game-title">Результаты</h1>
+					<% results.forEach(function(player) { %>
+						<div class="players">
+							<label for="<%= player.name %>">
+								<div class="player"><%= player.name %></div>
+							</label>
+							<button class="icon"><%= player.record %></button>
+						</div>
+						<% }) %>
+							<div class="flex">
+								<form class="" action="/gameOver" method="post" style="width: 100%;">
+									<% results.forEach(function(player) { %>
+										<input type="checkbox" name="checkbox" class="hidden" id="<%= player.name %>" checked="checked" value="<%= player.name %>"/>
+										<% }) %>
+											<button class="start" style="margin-top: 1vh;padding: 0 20px; width: 100%;">Завершить</button>
+										</form>
+									</div>
+								</div>
+							</main>
+						</body>
+						<%- include('footer') -%>
+						</html>

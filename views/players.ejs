@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('.player').on('click', function () {
+					$(this).toggleClass('active');
+				});
+			});
+		</script>
+		<body>
+			<%- include('loading') -%>
+				<main>
+					<div id="startblock">
+						<h1 id="game-title">Выбери игроков</h1>
+						<% activePlayers.forEach(function(player) { %>
+							<div class="players">
+								<label for="<%= player.name %>">
+									<div class="player"><%= player.name %></div>
+								</label>
+								<form action="/deletePlayer" method="post">
+									<button class="icon" name="deletePlayer" value="<%= player.name %>" type="submit">
+										<i class="fa fa-trash" aria-hidden="true"></i>
+									</button>
+								</form>
+							</div>
+							<% }) %>
+								<form class="players" action="/players" method="post">
+									<input class="value center" type="text" name="newPlayer" placeholder="Новый игрок" value="" required="required">
+									<button class="icon light" type="submit">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+								</form>
+								<form id="updatePlayer" class="href" action="/updatePlayer" method="post">
+									<% activePlayers.forEach(function(player) { %>
+										<input type="checkbox" onchange="$('.start').removeAttr('disabled');" name="checkbox" class="hidden" id="<%= player.name %>" value="<%= player.name %>"/>
+										<% }) %>
+										</form>
+									</div>
+									<div class="flex half">
+										<a href="/" onclick="">
+											<button class="start">Назад</button>
+										</a>
+										<button onclick="submitIt('updatePlayer')" class="start" disabled="disabled">Старт</button>
+									</div>
+									<% if (ghostPlayers.length > 0) { %>
+										<div class="hr"></div>
+										<h1 id="game-title">Сейчас играют</h1>
+									<% } %>
+									<% ghostPlayers.forEach(function(player) { %>
+										<div class="ghostPlayers">
+											<label for="<%= player.name %>">
+												<a href="/play?groupe=<%= player.groupe %>">
+													<div class="noplayer"><%= player.name %></div>
+												</a>
+											</label>
+											<!-- <a href="/<%= account %>/exit?groupe=<%= player.groupe %>" class="icon" style="height: 46px;"> <i class="fa fa-times" aria-hidden="true"></i> </a> -->
+										</div>
+										<% }) %>
+										</main>
+									</body>
+								</html>

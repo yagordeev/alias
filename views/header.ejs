@@ -1,0 +1,59 @@
+<head>
+	<meta charset="utf-8"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+	<meta name="theme-color" content="gainsboro"/>
+	<link rel="stylesheet" href="style.css">
+	<link rel="apple-touch-icon" size="144x144" href="apple-touch-icon.png">
+	<!-- PWA splash screens for IOS (640px x 1136px) -->
+	<link rel="apple-touch-startup-image" href="launch/ios.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+	<!-- iPhone 5, 5C, 5S, iPod Touch 5g (750px x 1334px) -->
+	<link rel="apple-touch-startup-image" href="launch/launch.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+	<!-- iPhone 6 (1242x2208) -->
+	<link rel="apple-touch-startup-image" href="launch/6.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+	<!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+	<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px)" href="launch/launch.png">
+	<title>Alias Game</title>
+	<link rel="manifest" href="manifest.json">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		$('a').on('click', function(e) {
+			e.preventDefault();
+			window.location = $(this).attr('href');
+		});
+		window.onload = function() {
+			$('body').css('opacity', '1');
+		};
+	</script>
+	<script>
+		$(document).ready(function() {
+			if (navigator.serviceWorker.controller) {
+				console.log('[PWA Builder] active service worker found, no need to register')
+			} else {
+				navigator
+					.serviceWorker
+					.register('/sw.js')
+					.then(function(reg) {
+						console.log('Service worker has been registered for scope:' + reg.scope);
+					});
+			}
+		});
+		const isIos = () => {
+			const userAgent = window
+				.navigator
+				.userAgent
+				.toLowerCase();
+			return /iphone|ipad|ipod/.test(userAgent);
+		};
+		const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+		if (isIos() && !isInStandaloneMode()) {
+			$(document).ready(function() {
+				$('#addToHome').css('display', 'block');
+				$('html').css('overflow', 'hidden');
+			});
+		} else {};
+	</script>
+</head>

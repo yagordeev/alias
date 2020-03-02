@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<body>
+			<main>
+				<div id="startblock">
+					<h1 id="title" style="margin-bottom:5vh">A L I A S</h1>
+					<div class="flex half">
+						<a href="/settings">
+							<button class="start">Настройки</button>
+						</a>
+						<a href="/players">
+							<button class="start">Играть</button>
+						</a>
+					</div>
+					<div class="white" style="margin: 2vh 0;">Здравствуйте,
+						<%=name%>!</div>
+					<a href="/logout" class="light-button">Выйти из аккаунта</a>
+				</div>
+			</main>
+			<%- include('PWA') -%>
+			</body>
+			<footer>By ⚜️ yaGordeev</footer>
+			<%- include('footer') -%>
+			</html>

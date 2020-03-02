@@ -1,0 +1,63 @@
+<style media="screen">
+	@-webkit-keyframes refreshing {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes refreshing {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.infinityrotate {
+		animation: refreshing 1s infinite linear;
+	}
+	.refresh {
+		height: 30px;
+		width: 30px;
+		transform-origin: 46% 43%;
+	}
+	#loading {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: center;
+		align-items: center;
+		align-content: space-between;
+		background: rgba(255, 255, 255, 0.6);
+		-webkit-backdrop-filter: saturate(180%) blur(5px);
+		backdrop-filter: saturate(180%) blur(5px);
+		transition: all 0.2s ease;
+		opacity: 0;
+		z-index: -9;
+	}
+	#loading.active {
+		z-index: 9999;
+		opacity: 1;
+	}
+</style>
+<div id="loading">
+	<div class="refresh">
+		<img src="svg/refresh.svg">
+	</div>
+</div>
+<script type="text/javascript">
+	function submitIt(id) {
+		$('#loading').addClass('active');
+		$('.refresh').addClass('infinityrotate');
+		setTimeout(function() {
+			$('#' + id).submit();
+		}, 100);
+	};
+</script>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<style media="screen">
+			#content {
+				height: 100%;
+			}
+			#settingForm {
+				width: 100%;
+				height: 100%;
+			}
+			#settings > div {
+				background: aliceblue;
+				padding: 1vh 3vh;
+				margin: 2vh 0;
+				border-radius: 8px;
+			}
+			.minititle {
+				margin-top: 1vh;
+			}
+			#newWord {
+				display: flex;
+				flex-direction: column;
+				flex-wrap: nowrap;
+				justify-content: center;
+				align-items: center;
+				align-content: center;
+				padding: 10px 30px !important;
+			}
+			#wordList {
+				height: auto;
+				max-height: 0;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: stretch;
+				align-content: stretch;
+				overflow: hidden;
+				transition: max-height 0.35s;
+			}
+			#wordList.open {
+				max-height: 1000px;
+			}
+			#wordList > * {
+				width: 30%;
+				padding: 20px 0;
+			}
+			#openList {
+				cursor: pointer;
+			}
+			label.ckeckList {
+				border-bottom: 1px solid #000;
+				transition: all 0.35s ease;
+				cursor: pointer;
+			}
+			.start {
+				margin: 20px 0;
+			}
+			.value {
+				border: 1px solid darkred;
+				width: 100%;
+				max-width: 100%;
+				margin: 0 !important;
+				font-size: 14px !important;
+				color: #000 !important;
+				border: 0 !important;
+			}
+			.icon {
+				border: 1px solid darkred;
+				height: 50px;
+				width: 20%;
+				background: darkred !important;
+				color: #fff !important;
+			}
+			#timer {
+				width: 100%;
+				margin: 15px 0;
+				background: darkred;
+				border-radius: 50px;
+				padding: 5px;
+			}
+			input[type="range"]::-webkit-slider-thumb,
+			input[type="range"]::-webkit-media-slider-thumb {
+				height: 20px;
+				width: 20px;
+				border: none;
+				color: #fff;
+			}
+			#timerRange {
+				color: darkred;
+			}
+			#time {
+				font-size: 40px;
+			}
+			#timerRange > div > span {
+				width: 100%;
+				text-align: left;
+			}
+		</style>
+		<body>
+			<%- include('loading') -%>
+				<main>
+					<form id="settingForm" action="/settings" method="post">
+						<h1 id="game-title">Настройки игры</h1>
+						<div id="settings">
+							<div id="timerRange">
+								<div class="minititle">Время раунда</div>
+								<input type="range" id="timer" name="timer" min="30" max="120" value="<%= timer %>" step="30">
+								<div id="time"><%= timer %></div>сек.
+							</div>
+							<div id="pass">
+								<div class="checkblock">
+									<label for="checkbox">Штраф за пропуск слова</label>
+									<input type="checkbox" class="ios-checkbox" id="checkbox" name="pass" <%= checked %> value="checked">
+								</div>
+							</div>
+							<div id="words">
+								<% activeWords.forEach(word => { %>
+									<div class="checkblock">
+										<label for="<%= word.category %>"><%= word.name %></label>
+										<input type="checkbox" class="ios-checkbox" id="<%= word.category %>" name="categories" checked="checked" <%= word.active %> value="<%= word.category %>">
+									</div>
+									<% }) %>
+										<% if (sleepWords.length>0 && activeWords.length>0) {%>
+											<div class="hr-black"></div>
+										<% } %>
+										<% sleepWords.forEach(word => { %>
+											<div class="checkblock">
+												<label for="<%= word.category %>"><%= word.name %></label>
+												<input type="checkbox" class="ios-checkbox" id="<%= word.category %>" name="categories" <%= word.active %> value="<%= word.category %>">
+											</div>
+											<% }); %>
+											</div>
+											<div id="newWord">
+												<% if (extraList === true) { %>
+													<div class="checkblock">
+														<label id="openList">Персональный список</label>
+														<input type="checkbox" class="ios-checkbox" id="extraWords" name="categories" checked="checked" value="extraWords">
+													</div>
+													<div id="wordList">
+														<% extraWords.forEach(word => { %>
+															<div>
+																<input type="checkbox" class="checkbox hidden" id="<%= word %>" name="wordList" value="<%= word %>">
+																<label class="ckeckList" for="<%= word %>"><%= word %></label>
+															</div>
+															<% }) %>
+															</div>
+															<div class="hr-black"></div>
+														<% } else { %>
+															<div class="checkblock">
+																<label id="openList">Персональный список</label>
+																<input type="checkbox" class="ios-checkbox" id="extraWords" name="categories" value="extraWords">
+															</div>
+															<div id="wordList">
+																<% extraWords.forEach(word => { %>
+																	<div>
+																		<input type="checkbox" class="checkbox hidden" id="<%= word %>" name="wordList" value="<%= word %>">
+																		<label class="ckeckList" for="<%= word %>"><%= word %></label>
+																	</div>
+																	<% }) %>
+																	</div>
+																	<div class="hr-black"></div>
+																<% } %>
+																<div class="flex" style="width: 100%; margin-bottom: 15px;">
+																	<input type="text" class="value left" name="newWord" placeholder="Добавить свои слова (..., ...)" value="">
+																	<button class="plus" type="submit">＋</button>
+																</div>
+															</div>
+														</div>
+													</form>
+													<div class="flex half">
+														<a href="/" onclick="">
+															<button class="start">Назад</button>
+														</a>
+														<button onclick="submitIt('settingForm')" class="start" style="padding: 0 20px;">Сохранить</button>
+													</div>
+												</main>
+											</body>
+											<%- include('footer') -%>
+												<script type="text/javascript">
+													$(document).on('input mousemove', '#timer', function () {
+														$('#time').text($(this).val());
+													});
+													$('.ckeckList').on('click', function () {
+														$(this).toggleClass('opacity');
+													});
+													$('#openList').on('click', function () {
+														var openList = $('#openList').text();
+														if (openList == 'Персональный список') {
+															$('#wordList').addClass('open');
+															openList = $('#openList').text();
+															$(this).text('Персональный список ');
+														} else {
+															$('#wordList').removeClass('open');
+															openList = $('#openList').text();
+															$(this).text('Персональный список');
+														}
+													});
+												</script>
+											</html>

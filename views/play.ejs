@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<style media="screen">
+			#content {
+				max-width: 90%;
+				padding-top: 0;
+			}
+		</style>
+		<body>
+			<div id="words" hidden="hidden">
+				<% words.forEach(word => { %>
+					<div class=""><%= word %></div>
+					<% }) %>
+					</div>
+					<main>
+						<h1 id="game-title">
+							<%= thisPlayer %>
+							<span id="timer"></span>
+							<div type="text" id="timerNumber" hidden="hidden"><%= timer %></div>
+							<div type="text" id="pass" hidden="hidden"><%= pass %></div>
+						</h1>
+						<div id="gameZone">
+							<div style="color:aliceblue; margin-bottom: 10px;;font-size: 14px;font-weight: normal;">
+								<span>Отгаданых слов:
+								</span>
+								<span id="record">0</span>
+							</div>
+							<div class="column">
+								<div id="wordCard">
+									<div id="thisWord"></div>
+									<div class="deleteWord">удалить слово</div>
+								</div>
+								<div class="flex half" style="width: 85%;">
+									<div id="no" class="gameBtn">
+										<i class="fa fa-ban" aria-hidden="true"></i>
+									</div>
+									<div id="yes" class="gameBtn">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<a href="/exit?groupe=<%= groupe %>" class="light-button" style="margin-top: 2vh;">Закончить игру</a>
+							</div>
+						</div>
+						<% if (nextPlayer) { %>
+							<form id="nextPlayer" class="hidden" action="/nextPlayer" method="post">
+								<input name="thisPlayer" value="<%= thisPlayer %>" class="hidden"/>
+								<input name="thisRecord" id="thisRecord" value="0" class="hidden"/>
+								<input name="nextPlayer" value="<%= nextPlayer %>" class="hidden"/>
+								<input name="groupe" value="<%= groupe %>" class="hidden"/>
+								<input id="deleteWord" name="deleteWord" value="" class="hidden"/>
+								<div class="flex">
+									<div class="nextPlayer">Следующий игрок –
+										<%= nextPlayer %></div>
+									<button class="go-btn" type="submit">Поехали!</button>
+								</div>
+							</form>
+						<% } else { %>
+							<form id="nextPlayer" class="hidden" action="/nextPlayer" method="post">
+								<input name="thisPlayer" value="<%= thisPlayer %>" class="hidden"/>
+								<input name="thisRecord" id="thisRecord" value="0" class="hidden"/>
+								<input id="NP" name="nextPlayer" value="<%= nextPlayer %>" class="hidden"/>
+								<input name="groupe" value="<%= groupe %>" class="hidden"/>
+								<input id="deleteWord" name="deleteWord" value="" class="hidden"/>
+								<div class="flex">
+									<button class="start" type="submit">Результаты</button>
+								</div>
+							</form>
+						<% } %>
+					</main>
+				</body>
+				<%- include('footer') -%>
+					<script type="text/javascript" src="/game.js"></script>
+				</html>

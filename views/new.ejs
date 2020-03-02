@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<%- include('header') -%>
+		<body>
+			<main style="width: 400px; margin-top: 0vh;">
+				<div id="startblock">
+					<h1 id="title" style="margin-bottom: 5vh;">A L I A S</h1>
+					<form id="firstTime" action="/<%=action%>" method="post">
+						<% if (!register) { %>
+							<div class="flex" style="height: 100%;">
+								<a href="/auth/facebook">
+									<div class="mini-social fb">
+										<div type="button" class="i">
+											<i class="fa fa-facebook"></i>
+										</div>
+										<div type="button" class="name">
+											Войти через Facebook
+										</div>
+									</div>
+								</a>
+								<a href="/auth/vkontakte">
+									<div class="mini-social vk">
+										<div type="button" class="i">
+											<i class="fa fa-vk"></i>
+										</div>
+										<div type="button" class="name">
+											Войти через Вконтакте
+										</div>
+									</div>
+								</a>
+								<a href="/auth/google">
+									<div class="mini-social google">
+										<div type="button" class="i">
+											<i class="fa fa-google"></i>
+										</div>
+										<div type="button" class="name">
+											Войти через Google
+										</div>
+									</div>
+								</a>
+							</div>
+							<div class="flex" style="margin: 2vh 0">
+								<hr style="width: 100%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+								<div style="width: 60%; color: rgba(255, 255, 255, 0.7);">или</div>
+								<hr style="width: 100%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+							</div>
+						<% } %>
+						<% if (error) { %>
+							<div style="color: darkred;background: #fff;padding: 2vh 0;margin-bottom: 2vh;"><%=error%></div>
+						<% } %>
+						<% if (register) { %>
+							<input type="text" name="firstname" class="login" placeholder="Имя" required="required">
+							<input type="text" name="lastname" class="login" value="" placeholder="Фамилия" required="required">
+						<% } %>
+						<input type="email" name="username" class="login" placeholder="Эл. почта" required="required">
+						<input type="password" name="password" class="login" value="" placeholder="Пароль" required="required">
+						<% if (register) { %>
+							<button type="submit" class="start">Зарегистрироваться</button>
+							<div class="flex">
+								<hr style="width: 100%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+								<a href="/" style="width: 90%; color: #fff;font-size: 14px;">Войти</a>
+								<hr style="width: 100%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+							</div>
+						<% } else {%>
+							<button type="submit" class="start">Войти</button>
+							<div class="flex">
+								<hr style="width: 60%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+								<a href="/register" style="width: 100%; color: #fff;font-size: 14px;">Регистрация</a>
+								<hr style="width: 60%; border: 0; border-top: 1px solid rgba(255, 255, 255, 0.5);">
+							</div>
+						<% } %>
+					</form>
+				</div>
+			</main>
+			<%- include('PWA') -%>
+			</body>
+			<footer>By ⚜️ yaGordeev</footer>
+		</html>
